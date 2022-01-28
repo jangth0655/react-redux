@@ -1,38 +1,14 @@
 import { createStore } from "redux";
+import { reducer } from "./reducers";
 
-const ADD = "ADD";
-const DELETE = "DELETE";
-
-const addToDo = (text) => {
-  return {
-    type: ADD,
-    text,
-  };
+const initialState = {
+  user: null,
+  isLoggingIn: true,
+  posts: [],
+  comments: [],
 };
 
-const deleteToDo = (id) => {
-  return {
-    type: DELETE,
-    id,
-  };
-};
+const store = createStore(reducer, initialState);
 
-const reducer = (state = [], action) => {
-  switch (action.type) {
-    case ADD:
-      return [{ text: action.text, id: Date.now() }, ...state];
-    case DELETE:
-      return state.filter((todo) => todo.id !== action.id);
-    default:
-      return state;
-  }
-};
-
-const store = createStore(reducer);
-
-export const actionCreators = {
-  addToDo,
-  deleteToDo,
-};
-
+console.log(store.getState());
 export default store;
