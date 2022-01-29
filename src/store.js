@@ -1,6 +1,8 @@
 import { applyMiddleware, createStore } from "redux";
 import { asyncLogin } from "./actions/user";
-import rootReducer from "./reducers";
+import { combineReducers } from "redux";
+import { postAndCommentReducer } from "./reducers/postReducer";
+import { userReducer } from "./reducers/userReducer";
 
 const initialState = {
   user: {
@@ -10,6 +12,12 @@ const initialState = {
   posts: [],
   comments: [],
 };
+
+export const rootReducer = combineReducers({
+  user: userReducer,
+  posts: postAndCommentReducer,
+  comments: postAndCommentReducer,
+});
 
 const firstMiddleWare = (store) => (dispatch) => (action) => {
   //console.log("action logging", action);
@@ -38,7 +46,5 @@ store.dispatch(
     admin: true,
   })
 );
-
-console.log(store.getState());
 
 export default store;
