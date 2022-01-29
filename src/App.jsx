@@ -1,30 +1,32 @@
-import { useDispatch, useSelector } from "react-redux";
-import { asyncLogin, logout } from "./actions/user";
+import React, { useState } from "react";
+
+import { useDispatch } from "react-redux";
+import { add, store, toDoSlice } from "./store";
 
 function App() {
-  const user = useSelector((state) => state.user);
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
-
-  console.log(user);
-  const onLogin = () => {
-    dispatch(
-      asyncLogin({
-        id: "zerocho",
-        password: "secret",
-      })
-    );
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(add(text));
+    setText("");
   };
 
-  const onLogout = () => {
-    dispatch(logout());
+  const onChange = (e) => {
+    setText(e.target.value);
   };
-
   return (
     <>
-      <h1>Hello</h1>
-      <button onClick={onLogin}>Login</button>
-      <button onClick={onLogout}>Logout</button>
-      {user.isLoggingIn ? <h1>You Logged</h1> : <h1>Plz Login ...</h1>}
+      <h1>hello</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          value={text}
+          type="text"
+          placeholder="Write todo"
+        />
+        <button>ADD</button>
+      </form>
     </>
   );
 }
